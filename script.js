@@ -12,19 +12,19 @@ const places = [
 ];
 
 const placeImages = {
-  "🇮🇳 India": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1600&q=80",
-  "🏔️ Colorado": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80",
-  "🌺 Hawaii": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
-  "🌴 Costa Rica": "https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=1600&q=80",
-  "🇳🇬 Nigeria": "https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?auto=format&fit=crop&w=1600&q=80",
-  "🇫🇷 France": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1600&q=80",
-  "🇯🇵 Japan": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1600&q=80",
-  "🇧🇷 Brazil": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1600&q=80",
-  "🇪🇬 Egypt": "https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=1600&q=80"
+  "🇮🇳 India": "assets/backgrounds/india.svg",
+  "🏔️ Colorado": "assets/backgrounds/colorado.svg",
+  "🌺 Hawaii": "assets/backgrounds/hawaii.svg",
+  "🌴 Costa Rica": "assets/backgrounds/costa-rica.svg",
+  "🇳🇬 Nigeria": "assets/backgrounds/nigeria.svg",
+  "🇫🇷 France": "assets/backgrounds/france.svg",
+  "🇯🇵 Japan": "assets/backgrounds/japan.svg",
+  "🇧🇷 Brazil": "assets/backgrounds/brazil.svg",
+  "🇪🇬 Egypt": "assets/backgrounds/egypt.svg"
 };
 
 function setTravelBackground(placeName){
-  const image = placeImages[placeName] || placeImages["🌺 Hawaii"];
+  const image = placeImages[placeName] || placeImages["🌺 Hawaii"] || "assets/backgrounds/default.svg";
   document.body.style.background = `linear-gradient(140deg, rgba(7, 47, 95, 0.45), rgba(12, 145, 163, 0.15)), url(${image}) center/cover no-repeat fixed`;
 }
 

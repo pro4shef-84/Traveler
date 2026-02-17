@@ -6,7 +6,7 @@ body {
   min-height: 100vh;
   background:
     linear-gradient(140deg, rgba(7, 47, 95, 0.45), rgba(12, 145, 163, 0.15)),
-    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80") center/cover no-repeat fixed;
+    url("assets/backgrounds/default.svg") center/cover no-repeat fixed;
 }
 
 .skyBackdrop{
@@ -69,9 +69,9 @@ h1 { margin: 0; font-size: 30px; }
   box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
-.heroCardBeach{ background: linear-gradient(to top, rgba(0,0,0,.35), transparent), url("https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80") center/cover no-repeat; }
-.heroCardCity{ background: linear-gradient(to top, rgba(0,0,0,.35), transparent), url("https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=80") center/cover no-repeat; }
-.heroCardMountain{ background: linear-gradient(to top, rgba(0,0,0,.35), transparent), url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80") center/cover no-repeat; }
+.heroCardBeach{ background: linear-gradient(to top, rgba(0,0,0,.35), transparent), url("assets/hero/beach.svg") center/cover no-repeat; }
+.heroCardCity{ background: linear-gradient(to top, rgba(0,0,0,.35), transparent), url("assets/hero/city.svg") center/cover no-repeat; }
+.heroCardMountain{ background: linear-gradient(to top, rgba(0,0,0,.35), transparent), url("assets/hero/mountain.svg") center/cover no-repeat; }
 
 .topStats{
   margin-top: 14px;
