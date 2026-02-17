@@ -1,217 +1,232 @@
-const winnerModal = document.getElementById("winnerModal");
-const winnerText = document.getElementById("winnerText");
-const confettiEl = document.getElementById("confetti");
-const playAgainBtn = document.getElementById("playAgainBtn");
-const keepPlayingBtn = document.getElementById("keepPlayingBtn");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Traveler VIP Passport</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="skyBackdrop" aria-hidden="true"></div>
 
-<div class="app">
-  <div class="passport">
-    <div class="passportTop">
-      <div>
-        <h1>🛂 VIP Passport</h1>
-        <p class="sub">Multiplayer Party Mode: take turns traveling!</p>
-      </div>
-      <div class="badge">VIP</div>
-    </div>
-
-    <div class="topStats">
-      <div class="stat">💰 Coins: <span id="coins">0</span></div>
-      <div class="stat">🎟️ First Class Tickets: <span id="fcTickets">0</span></div>
-      <div class="stat">👤 Current: <span id="currentPlayerName">Solo</span></div>
-    </div>
-
-    <div class="tabs">
-      <button id="tabPassport" class="tab active">Passport</button>
-      <button id="tabLounge" class="tab">Airport Lounge</button>
-      <button id="tabStore" class="tab">Store</button>
-      <button id="tabParty" class="tab">Party Mode</button>
-    </div>
-
-    <!-- PASSPORT SCREEN -->
-    <div id="screenPassport">
-      <div class="controls">
-        <div class="soundPanel">
-  <div class="soundTitle">🎮 Walk Around Mode</div>
-  <div class="soundRow">
-    <button id="enterWalk" class="primary">Enter Walk Mode</button>
-    <button id="exitWalk" class="secondary">Exit Walk Mode</button>
-    <div style="font-weight:900; opacity:0.85;">Move: ⬅️⬆️⬇️➡️ or WASD</div>
-  </div>
-  <canvas id="gameCanvas" width="760" height="360" class="gameCanvas hidden"></canvas>
-  <div id="walkHint" class="soundMsg">Tip: Walk into the 🎁 Souvenir Stand to “collect” a souvenir!</div>
-</div>
-
-        <button id="travelEcoBtn">Travel (Economy) ✈️</button>
-        <button id="travelFcBtn" class="primary">Travel (First Class) ✨</button>
-        <button id="clearBtn" class="secondary">Reset Game 🧼</button>
-      </div>
-
-      <div class="nowVisiting">
-        <div class="label">Now Visiting</div>
-        <div id="destination" class="destination">Choose a travel button to start!</div>
-        <div id="fact" class="fact"></div>
-      </div>
-
-      <!-- Souvenirs -->
-      <div class="soundPanel">
-        <div class="soundTitle">🎒 Souvenir Collection (Current Player)</div>
-        <div id="souvenirList" class="pillWrap"></div>
-      </div>
-
-      <!-- Sounds -->
-      <div class="soundPanel">
-        <div class="soundTitle">🎵 Country Music + Sounds</div>
-
-        <div class="soundRow">
-          <label class="soundLabel">Country</label>
-          <select id="countrySelect" class="soundSelect"></select>
-        </div>
-
-        <div class="soundRow">
-          <label class="soundLabel">Music URL (MP3)</label>
-          <input id="musicUrl" class="soundInput" placeholder="Paste an .mp3 URL here" />
-          <button id="saveMusic" class="primary">Save</button>
-        </div>
-
-        <div class="soundRow">
-          <label class="soundLabel">Ambient URL (MP3)</label>
-          <input id="ambientUrl" class="soundInput" placeholder="Optional: ocean/rain/city .mp3 URL" />
-          <button id="saveAmbient">Save</button>
-        </div>
-
-        <div class="soundRow">
-          <button id="playMusic">Play Music ▶️</button>
-          <button id="stopMusic" class="secondary">Stop ⏹</button>
-          <button id="playAmbient">Play Ambient 🌊</button>
-          <button id="stopAmbient" class="secondary">Stop ⏹</button>
-        </div>
-
-        <div class="soundRow">
-          <label class="soundLabel">Volume</label>
-          <input id="volume" type="range" min="0" max="100" value="60" class="soundSlider" />
-          <span id="volText" class="volText">60%</span>
-        </div>
-
-        <div id="soundMsg" class="soundMsg"></div>
-      </div>
-
-      <h2 class="stampTitle">Your Stamps (Everyone)</h2>
-      <div id="stamps" class="stamps"></div>
-    </div>
-
-    <!-- LOUNGE SCREEN -->
-    <div id="screenLounge" class="hidden">
-      <div class="loungeHeader">
+  <div class="app">
+    <div class="passport">
+      <div class="passportTop">
         <div>
-          <h2 class="loungeTitle">🛋️ Airport Lounge</h2>
-          <p class="loungeSub">Tap snacks to earn coins for the current player.</p>
+          <h1>🛂 VIP Passport</h1>
+          <p class="sub">Multiplayer Party Mode: take turns traveling!</p>
         </div>
-        <div class="loungeScore">
-          Coins Earned Here: <span id="loungeCoins">0</span>
+        <div class="badge">VIP</div>
+      </div>
+
+      <div class="heroImages">
+        <div class="heroCard heroCardBeach">
+          <span>🌊 Tropical Escape</span>
+        </div>
+        <div class="heroCard heroCardCity">
+          <span>🏙️ Urban Adventure</span>
+        </div>
+        <div class="heroCard heroCardMountain">
+          <span>🏔️ Alpine Journey</span>
         </div>
       </div>
 
-      <div class="loungeDecor">
-        <div class="decorItem">🪴 Plant Corner</div>
-        <div class="decorItem">☕ Coffee Bar</div>
-        <div class="decorItem">📰 News Stand</div>
-        <div class="decorItem">🛋️ Comfy Seats</div>
+      <div class="topStats">
+        <div class="stat">💰 Coins: <span id="coins">0</span></div>
+        <div class="stat">🎟️ First Class Tickets: <span id="fcTickets">0</span></div>
+        <div class="stat">👤 Current: <span id="currentPlayerName">Solo</span></div>
       </div>
 
-      <div class="miniGame">
-        <div class="miniTitle">🍪 Snack Catcher Mini Game</div>
-        <div class="miniHelp">Tap snacks fast when they appear to earn coins!</div>
-
-        <div id="snackArea" class="snackArea">
-          <div class="snackHint">Snacks will pop up here 👀</div>
-        </div>
-
-        <div class="miniButtons">
-          <button id="startSnackGame">Start Mini Game 🎮</button>
-          <button id="stopSnackGame" class="secondary">Stop</button>
-          <button id="boardEcoBtn">Board Economy ✈️</button>
-          <button id="boardFcBtn" class="primary">Board First Class ✨</button>
-        </div>
-
-        <div class="boardingNote" id="boardingNote"></div>
-      </div>
-    </div>
-
-    <!-- STORE SCREEN -->
-    <div id="screenStore" class="hidden">
-      <div class="storeHeader">
-        <h2 class="storeTitle">🏪 Travel Store</h2>
-        <p class="storeSub">Buys are for the CURRENT player.</p>
+      <div class="tabs">
+        <button id="tabPassport" class="tab active">Passport</button>
+        <button id="tabLounge" class="tab">Airport Lounge</button>
+        <button id="tabStore" class="tab">Store</button>
+        <button id="tabParty" class="tab">Party Mode</button>
       </div>
 
-      <div class="storeGrid">
-        <div class="storeCard">
-          <div class="storeBig">🎟️ First Class Ticket</div>
-          <div class="storeSmall">Cost: <b>10 coins</b></div>
-          <div class="storeSmall">Lets you travel First Class 1 time.</div>
-          <button id="buyFcBtn" class="primary">Buy</button>
+      <div id="screenPassport">
+        <div class="controls">
+          <div class="soundPanel">
+            <div class="soundTitle">🎮 Walk Around Mode</div>
+            <div class="soundRow">
+              <button id="enterWalk" class="primary">Enter Walk Mode</button>
+              <button id="exitWalk" class="secondary">Exit Walk Mode</button>
+              <div style="font-weight:900; opacity:0.85;">Move: ⬅️⬆️⬇️➡️ or WASD</div>
+            </div>
+            <canvas id="gameCanvas" width="760" height="360" class="gameCanvas hidden"></canvas>
+            <div id="walkHint" class="soundMsg">Tip: Walk into the 🎁 Souvenir Stand to “collect” a souvenir!</div>
+          </div>
+
+          <button id="travelEcoBtn">Travel (Economy) ✈️</button>
+          <button id="travelFcBtn" class="primary">Travel (First Class) ✨</button>
+          <button id="clearBtn" class="secondary">Reset Game 🧼</button>
         </div>
 
-        <div class="storeCard">
-          <div class="storeBig">🧳 Fancy Suitcase</div>
-          <div class="storeSmall">Cost: <b>6 coins</b></div>
-          <div class="storeSmall">Just for fun 😄</div>
-          <button id="buySuitcaseBtn">Buy</button>
+        <div class="nowVisiting">
+          <div class="label">Now Visiting</div>
+          <div id="destination" class="destination">Choose a travel button to start!</div>
+          <div id="fact" class="fact"></div>
         </div>
 
-        <div class="storeCard">
-          <div class="storeBig">🥤 Lounge Soda</div>
-          <div class="storeSmall">Cost: <b>3 coins</b></div>
-          <div class="storeSmall">Just for fun 😄</div>
-          <button id="buySodaBtn">Buy</button>
+        <div class="soundPanel">
+          <div class="soundTitle">🎒 Souvenir Collection (Current Player)</div>
+          <div id="souvenirList" class="pillWrap"></div>
+        </div>
+
+        <div class="soundPanel">
+          <div class="soundTitle">🎵 Country Music + Sounds</div>
+
+          <div class="soundRow">
+            <label class="soundLabel">Country</label>
+            <select id="countrySelect" class="soundSelect"></select>
+          </div>
+
+          <div class="soundRow">
+            <label class="soundLabel">Music URL (MP3)</label>
+            <input id="musicUrl" class="soundInput" placeholder="Paste an .mp3 URL here" />
+            <button id="saveMusic" class="primary">Save</button>
+          </div>
+
+          <div class="soundRow">
+            <label class="soundLabel">Ambient URL (MP3)</label>
+            <input id="ambientUrl" class="soundInput" placeholder="Optional: ocean/rain/city .mp3 URL" />
+            <button id="saveAmbient">Save</button>
+          </div>
+
+          <div class="soundRow">
+            <button id="playMusic">Play Music ▶️</button>
+            <button id="stopMusic" class="secondary">Stop ⏹</button>
+            <button id="playAmbient">Play Ambient 🌊</button>
+            <button id="stopAmbient" class="secondary">Stop ⏹</button>
+          </div>
+
+          <div class="soundRow">
+            <label class="soundLabel">Volume</label>
+            <input id="volume" type="range" min="0" max="100" value="60" class="soundSlider" />
+            <span id="volText" class="volText">60%</span>
+          </div>
+
+          <div id="soundMsg" class="soundMsg"></div>
+        </div>
+
+        <h2 class="stampTitle">Your Stamps (Everyone)</h2>
+        <div id="stamps" class="stamps"></div>
+      </div>
+
+      <div id="screenLounge" class="hidden">
+        <div class="loungeHeader">
+          <div>
+            <h2 class="loungeTitle">🛋️ Airport Lounge</h2>
+            <p class="loungeSub">Tap snacks to earn coins for the current player.</p>
+          </div>
+          <div class="loungeScore">
+            Coins Earned Here: <span id="loungeCoins">0</span>
+          </div>
+        </div>
+
+        <div class="loungeDecor">
+          <div class="decorItem">🪴 Plant Corner</div>
+          <div class="decorItem">☕ Coffee Bar</div>
+          <div class="decorItem">📰 News Stand</div>
+          <div class="decorItem">🛋️ Comfy Seats</div>
+        </div>
+
+        <div class="miniGame">
+          <div class="miniTitle">🍪 Snack Catcher Mini Game</div>
+          <div class="miniHelp">Tap snacks fast when they appear to earn coins!</div>
+
+          <div id="snackArea" class="snackArea">
+            <div class="snackHint">Snacks will pop up here 👀</div>
+          </div>
+
+          <div class="miniButtons">
+            <button id="startSnackGame">Start Mini Game 🎮</button>
+            <button id="stopSnackGame" class="secondary">Stop</button>
+            <button id="boardEcoBtn">Board Economy ✈️</button>
+            <button id="boardFcBtn" class="primary">Board First Class ✨</button>
+          </div>
+
+          <div class="boardingNote" id="boardingNote"></div>
         </div>
       </div>
 
-      <div id="storeMsg" class="storeMsg"></div>
-    </div>
-
-    <!-- PARTY MODE SCREEN -->
-    <div id="screenParty" class="hidden">
-      <div class="partyBox">
-        <div class="partyTitle">👥 Party Mode</div>
-        <div class="partySub">Pick 2–4 players. Then take turns traveling!</div>
-
-        <div class="partyRow">
-          <label class="partyLabel">Players</label>
-          <select id="playerCount" class="soundSelect">
-            <option value="1">1 (Solo)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
+      <div id="screenStore" class="hidden">
+        <div class="storeHeader">
+          <h2 class="storeTitle">🏪 Travel Store</h2>
+          <p class="storeSub">Buys are for the CURRENT player.</p>
         </div>
 
-        <div id="playerNames" class="partyNames"></div>
+        <div class="storeGrid">
+          <div class="storeCard">
+            <div class="storeBig">🎟️ First Class Ticket</div>
+            <div class="storeSmall">Cost: <b>10 coins</b></div>
+            <div class="storeSmall">Lets you travel First Class 1 time.</div>
+            <button id="buyFcBtn" class="primary">Buy</button>
+          </div>
 
-        <div class="partyRow">
-          <button id="startParty" class="primary">Start Party 🎉</button>
-          <button id="nextTurn" class="secondary">Next Turn ➡️</button>
+          <div class="storeCard">
+            <div class="storeBig">🧳 Fancy Suitcase</div>
+            <div class="storeSmall">Cost: <b>6 coins</b></div>
+            <div class="storeSmall">Just for fun 😄</div>
+            <button id="buySuitcaseBtn">Buy</button>
+          </div>
+
+          <div class="storeCard">
+            <div class="storeBig">🥤 Lounge Soda</div>
+            <div class="storeSmall">Cost: <b>3 coins</b></div>
+            <div class="storeSmall">Just for fun 😄</div>
+            <button id="buySodaBtn">Buy</button>
+          </div>
         </div>
 
-        <div class="partyRow">
-          <div class="partyNow">Current Player: <b id="partyCurrent">Solo</b></div>
-        </div>
+        <div id="storeMsg" class="storeMsg"></div>
+      </div>
 
-        <div class="partyScoreTitle">🏆 Scoreboard</div>
-        <div id="scoreboard" class="scoreboard"></div>
+      <div id="screenParty" class="hidden">
+        <div class="partyBox">
+          <div class="partyTitle">👥 Party Mode</div>
+          <div class="partySub">Pick 2–4 players. Then take turns traveling!</div>
+
+          <div class="partyRow">
+            <label class="partyLabel">Players</label>
+            <select id="playerCount" class="soundSelect">
+              <option value="1">1 (Solo)</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+
+          <div id="playerNames" class="partyNames"></div>
+
+          <div class="partyRow">
+            <button id="startParty" class="primary">Start Party 🎉</button>
+            <button id="nextTurn" class="secondary">Next Turn ➡️</button>
+          </div>
+
+          <div class="partyRow">
+            <div class="partyNow">Current Player: <b id="partyCurrent">Solo</b></div>
+          </div>
+
+          <div class="partyScoreTitle">🏆 Scoreboard</div>
+          <div id="scoreboard" class="scoreboard"></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- WINNER MODAL -->
-<div id="winnerModal" class="winnerModal hidden">
-  <div class="winnerCard">
-    <div class="winnerTitle">🏆 WINNER!</div>
-    <div id="winnerText" class="winnerText"></div>
-    <div class="winnerButtons">
-      <button id="playAgainBtn" class="primary">Play Again 🔁</button>
-      <button id="keepPlayingBtn" class="secondary">Keep Playing ▶️</button>
+
+  <div id="winnerModal" class="winnerModal hidden">
+    <div class="winnerCard">
+      <div class="winnerTitle">🏆 WINNER!</div>
+      <div id="winnerText" class="winnerText"></div>
+      <div class="winnerButtons">
+        <button id="playAgainBtn" class="primary">Play Again 🔁</button>
+        <button id="keepPlayingBtn" class="secondary">Keep Playing ▶️</button>
+      </div>
     </div>
+    <div id="confetti" class="confetti"></div>
   </div>
-  <div id="confetti" class="confetti"></div>
-</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
