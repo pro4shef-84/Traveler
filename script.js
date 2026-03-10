@@ -11,6 +11,23 @@ const places = [
   { name: "🇪🇬 Egypt", vip: false, fact: "Fun fact: The Great Pyramid of Giza is one of the Seven Wonders of the Ancient World!", souvenir: "🐫 Tiny Camel Statue", location: "🏜️ Desert Sunset Dunes" }
 ];
 
+const placeImages = {
+  "🇮🇳 India": "assets/backgrounds/india.svg",
+  "🏔️ Colorado": "assets/backgrounds/colorado.svg",
+  "🌺 Hawaii": "assets/backgrounds/hawaii.svg",
+  "🌴 Costa Rica": "assets/backgrounds/costa-rica.svg",
+  "🇳🇬 Nigeria": "assets/backgrounds/nigeria.svg",
+  "🇫🇷 France": "assets/backgrounds/france.svg",
+  "🇯🇵 Japan": "assets/backgrounds/japan.svg",
+  "🇧🇷 Brazil": "assets/backgrounds/brazil.svg",
+  "🇪🇬 Egypt": "assets/backgrounds/egypt.svg"
+};
+
+function setTravelBackground(placeName){
+  const image = placeImages[placeName] || placeImages["🌺 Hawaii"] || "assets/backgrounds/default.svg";
+  document.body.style.background = `linear-gradient(140deg, rgba(7, 47, 95, 0.45), rgba(12, 145, 163, 0.15)), url(${image}) center/cover no-repeat fixed`;
+}
+
 // Elements
 const stampsEl = document.getElementById("stamps");
 const destinationEl = document.getElementById("destination");
@@ -253,6 +270,7 @@ function travel(isFirstClass){
 
   // update main display
   destinationEl.textContent = place.name + (place.vip ? " ✨ (VIP)" : "");
+  setTravelBackground(place.name);
   factEl.textContent = `${place.fact} | 📍 ${place.location} | 🎁 Souvenir: ${place.souvenir} | 👤 ${p.name}`;
 
   // coins earned
@@ -275,6 +293,7 @@ function travel(isFirstClass){
   autoSwitchCountryInSoundPanel(place.name);
 
   updateTopStats();
+  checkWinner();
 }
 
 // ---------- Tabs ----------
@@ -505,6 +524,8 @@ nextTurnBtn.addEventListener("click", () => {
 
 // Start
 updateTopStats();
+setTravelBackground("🌺 Hawaii");
+
 // Winner modal elements
 const winnerModal = document.getElementById("winnerModal");
 const winnerText = document.getElementById("winnerText");
@@ -522,7 +543,6 @@ function makeConfetti(){
     p.style.left = Math.random() * 100 + "vw";
     p.style.animationDelay = (Math.random() * 0.6) + "s";
     p.style.transform = `rotate(${Math.random()*360}deg)`;
-    // random bright color
     p.style.background = `hsl(${Math.floor(Math.random()*360)}, 90%, 60%)`;
     p.style.width = (8 + Math.random()*8) + "px";
     p.style.height = (10 + Math.random()*10) + "px";
@@ -543,27 +563,12 @@ function hideWinner(){
 
 function checkWinner(){
   const p = getP();
-  if (p.souvenirs.length >= WIN_SOUVENIRS) {
-    showWinner(p.name);
-  }
+  if (p.souvenirs.length >= WIN_SOUVENIRS) showWinner(p.name);
 }
-if (!souvenirs.includes(place.souvenir)) {
-  getPsouvenirs.push(place.souvenir);
-  showSouvenirPopup(`🎁 ${p.name} got: ${place.souvenir}!`);
-}
-function checkWinner(){
-  const p = getP();   // 👈 THIS LINE FIXES IT
-  if (p.souvenirs.length >= WIN_SOUVENIRS) {
-    showWinner(p.name);
-  }
-}
-
-
 
 keepPlayingBtn.addEventListener("click", hideWinner);
 
 playAgainBtn.addEventListener("click", () => {
-  // full reset
   players = [makePlayer("Solo")];
   currentPlayerIndex = 0;
   stampsEl.innerHTML = "";
@@ -571,12 +576,9 @@ playAgainBtn.addEventListener("click", () => {
   factEl.textContent = "";
   stopAllAudio();
   hideWinner();
+  setTravelBackground("🌺 Hawaii");
   updateTopStats();
   setActiveTab("passport");
-});
-
-playAgainBtn.addEventListener("click", () => {
-  alert("Play Again button works!");
 });
 
 // ===== WALK AROUND MODE (Canvas) =====
@@ -591,7 +593,6 @@ let keys = {};
 
 const player = { x: 80, y: 180, r: 14, speed: 2.6 };
 
-// Simple “objects” to walk into
 const objects = {
   souvenir: { x: 620, y: 90, w: 110, h: 70, emoji: "🎁", label: "Souvenir Stand" },
   lounge:   { x: 620, y: 230, w: 110, h: 70, emoji: "🛋️", label: "Lounge Door" }
@@ -605,7 +606,6 @@ function rectHitCircle(rect, c){
   return (dx*dx + dy*dy) <= (c.r*c.r);
 }
 
-// Pick a “theme” color based on current country select (so it changes when you travel)
 function getTheme(){
   const country = (typeof countrySelect !== "undefined" && countrySelect.value) ? countrySelect.value : "World";
   if (country.includes("India")) return { bg:"#fff3d6", deco:"🕌" };
@@ -624,14 +624,11 @@ function drawObject(o){
   ctx.save();
   ctx.fillStyle = "rgba(0,0,0,0.06)";
   ctx.fillRect(o.x, o.y, o.w, o.h);
-
   ctx.strokeStyle = "rgba(0,0,0,0.15)";
   ctx.lineWidth = 2;
   ctx.strokeRect(o.x, o.y, o.w, o.h);
-
   ctx.font = "30px Arial";
   ctx.fillText(o.emoji, o.x + 12, o.y + 38);
-
   ctx.font = "bold 12px Arial";
   ctx.fillStyle = "rgba(0,0,0,0.8)";
   ctx.fillText(o.label, o.x + 10, o.y + o.h - 10);
@@ -640,32 +637,21 @@ function drawObject(o){
 
 function draw(){
   const theme = getTheme();
-
-  // Background
   ctx.clearRect(0,0,gameCanvas.width, gameCanvas.height);
   ctx.fillStyle = theme.bg;
   ctx.fillRect(0,0,gameCanvas.width, gameCanvas.height);
-
-  // Decor (just fun)
   ctx.font = "28px Arial";
   ctx.fillText(theme.deco, 20, 40);
   ctx.fillText(theme.deco, 200, 320);
   ctx.fillText(theme.deco, 420, 60);
-
-  // Ground “path”
   ctx.fillStyle = "rgba(0,0,0,0.06)";
   ctx.fillRect(0, 160, 520, 40);
-
-  // Objects
   drawObject(objects.souvenir);
   drawObject(objects.lounge);
-
-  // Player
   ctx.beginPath();
   ctx.fillStyle = "#2b6cff";
   ctx.arc(player.x, player.y, player.r, 0, Math.PI*2);
   ctx.fill();
-
   ctx.font = "bold 12px Arial";
   ctx.fillStyle = "rgba(0,0,0,0.8)";
   ctx.fillText("YOU", player.x - 14, player.y - 20);
@@ -680,21 +666,17 @@ function update(){
   if (keys["ArrowUp"] || keys["w"]) dy -= 1;
   if (keys["ArrowDown"] || keys["s"]) dy += 1;
 
-  // Move
   const len = Math.hypot(dx, dy) || 1;
   player.x += (dx/len) * player.speed;
   player.y += (dy/len) * player.speed;
 
-  // Boundaries
   player.x = Math.max(player.r, Math.min(gameCanvas.width - player.r, player.x));
   player.y = Math.max(player.r, Math.min(gameCanvas.height - player.r, player.y));
 
-  // Interactions
   const p = (typeof getP === "function") ? getP() : null;
 
   if (rectHitCircle(objects.souvenir, player)) {
     walkHint.textContent = "🎁 You found the Souvenir Stand! (Walk away to stop triggering.)";
-    // Give a bonus coin + show popup (only once every second)
     if (!update._souvenirCooldown) {
       update._souvenirCooldown = true;
       setTimeout(()=> update._souvenirCooldown = false, 1000);
@@ -729,22 +711,3 @@ exitWalkBtn.addEventListener("click", () => {
 
 window.addEventListener("keydown", (e) => { keys[e.key] = true; });
 window.addEventListener("keyup", (e) => { keys[e.key] = false; });
-
-// ✅ CHARACTER TEST (paste at very bottom)
-const testCanvas = document.getElementById("gameCanvas");
-const testCtx = testCanvas.getContext("2d");
-
-// paint background
-testCtx.fillStyle = "#eef7ff";
-testCtx.fillRect(0, 0, testCanvas.width, testCanvas.height);
-
-// draw character
-testCtx.beginPath();
-testCtx.fillStyle = "#2b6cff";
-testCtx.arc(120, 120, 18, 0, Math.PI * 2);
-testCtx.fill();
-
-// label
-testCtx.font = "bold 16px Arial";
-testCtx.fillStyle = "#111";
-testCtx.fillText("YOU", 95, 85);
